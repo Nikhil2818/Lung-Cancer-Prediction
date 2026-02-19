@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lung Cancer Survival Prediction</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+        }
+        select, button {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #00adb5;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Lung Cancer Survival Prediction (RSF)</h2>
+
+<form action="/predict" method="post">
+
+    <p>Age Group</p>
+    <select name="Age_group">
+        <option value="1">Group 1</option>
+        <option value="2">Group 2</option>
+        <option value="3">Group 3</option>
+        <option value="4">Group 4</option>
+    </select>
+
+    <p>Sex</p>
+    <select name="Sex_binary">
+        <option value="0">Female</option>
+        <option value="1">Male</option>
+    </select>
+
+    <p>Laterality</p>
+    <select name="Laterality_group">
+        <option value="1">Left</option>
+        <option value="2">Right</option>
+    </select>
+
+    <p>Stage</p>
+    <select name="Stage_group">
+        <option value="1">Stage I</option>
+        <option value="2">Stage II</option>
+        <option value="3">Stage III</option>
+        <option value="4">Stage IV</option>
+    </select>
+
+    <p>T Stage</p>
+    <select name="T_group">
+        <option value="1">T1</option>
+        <option value="2">T2</option>
+        <option value="3">T3+</option>
+    </select>
+
+    <p>N Stage</p>
+    <select name="N_group">
+        <option value="0">N0</option>
+        <option value="1">N1+</option>
+    </select>
+
+    <p>Tumor Size</p>
+    <select name="TumorSize_group">
+        <option value="1">Small</option>
+        <option value="2">Medium</option>
+        <option value="3">Large</option>
+        <option value="4">Very Large</option>
+    </select>
+
+    <p>Nodes Examined</p>
+    <select name="Nodes_examined_group">
+        <option value="1">Low</option>
+        <option value="2">Moderate</option>
+        <option value="3">High</option>
+        <option value="4">Very high</option>
+        <option value="5">Extensive</option>
+    </select>
+
+    <p>Nodes Positive</p>
+    <select name="Nodes_positive_group">
+        <option value="0">Low</option>
+        <option value="1">High</option>
+    </select>
+
+    <p>Surgery</p>
+    <select name="Surgery_group">
+        <option value="1">Sub-lobectomy</option>
+        <option value="2">Lobectomy</option>
+        <option value="3">Pneumonectomy</option>
+        <option value="4">Palliative / no surgery</option>
+    </select>
+
+    <p>Chemotherapy</p>
+    <select name="Chemo_binary">
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+    </select>
+
+    <p>Primary Site</p>
+    <select name="PrimarySite_group">
+        <option value="1">Site 1</option>
+        <option value="2">Site 2</option>
+        <option value="3">Site 3</option>
+        <option value="4">Site 4</option>
+    </select>
+
+    <p>Tumor Type</p>
+    <select name="TumorType_group">
+        <option value="1">Type 1</option>
+        <option value="2">Type 2</option>
+        <option value="3">Type 3</option>
+        <option value="4">Type 4</option>
+        <option value="5">Type 5</option>
+    </select>
+
+    <p>Grade</p>
+    <select name="grade_num">
+        <option value="0">Unknown</option>
+        <option value="1">Grade 1</option>
+        <option value="2">Grade 2</option>
+        <option value="3">Grade 3</option>
+        <option value="4">Grade 4</option>
+    </select>
+
+    <br><br>
+    <button type="submit">Predict Survival Probability</button>
+
+</form>
+
+<br><br>
+
+<h3>{{ prediction_text }}</h3>
+{% if prediction_text %}
+<div class="result-box">
+    <h3>Predicted Survival Probability</h3>
+    <p>1-Year: {{ prediction_text["1_year"] }}</p>
+    <p>3-Year: {{ prediction_text["3_year"] }}</p>
+    <p>5-Year: {{ prediction_text["5_year"] }}</p>
+</div>
+{% endif %}
+
+{% if plot_url %}
+<div style="text-align:center; margin-top:30px;">
+    <h3>Survival Curve</h3>
+    <img src="data:image/png;base64,{{ plot_url }}" width="600">
+</div>
+{% endif %}
+
+</body>
+</html>
